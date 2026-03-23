@@ -46,7 +46,7 @@ Clone the repository:
 
 ```bash
 git clone https://github.com/sai161812/emotion-classifier1.git
-cd emotion-classifier
+cd emotion-classifier1
 ```
 
 Install dependencies:
