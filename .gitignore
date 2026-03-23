@@ -1,0 +1,5 @@
+.venv/
+emotion_classifier.pkl
+__pycache__/
+*.pyc
+.venv
