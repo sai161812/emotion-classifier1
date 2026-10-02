@@ -1,0 +1,244 @@
+{
+  "dataset": {
+    "train_sha256": "531385f87c8dab2c219b74aea070b9497c28a573002219caf83a67a68daa395c",
+    "test_sha256": "2f8169dc6af336a8522b7763ff06bd56489f26fddfc229bf410042b857074112",
+    "original_train_rows": 16000,
+    "original_train_duplicate_text_rows": 31,
+    "removed_overlap_train_rows": 11,
+    "removed_overlap_unique_texts": 11,
+    "effective_train_rows": 15989,
+    "test_rows": 2000,
+    "remaining_split_overlap_unique_texts": 0,
+    "train_label_counts": {
+      "sadness": 4665,
+      "joy": 5360,
+      "love": 1300,
+      "anger": 2159,
+      "fear": 1934,
+      "surprise": 571
+    },
+    "test_label_counts": {
+      "sadness": 581,
+      "joy": 695,
+      "love": 159,
+      "anger": 275,
+      "fear": 224,
+      "surprise": 66
+    },
+    "policy": "Supplied test set unchanged; normalized exact text overlap removed from training. Remaining within-training duplicates retained."
+  },
+  "model": {
+    "features": "TF-IDF",
+    "ngram_range": [
+      1,
+      2
+    ],
+    "max_features": 50000,
+    "sublinear_tf": true,
+    "min_df": 2,
+    "classifier": "LogisticRegression",
+    "C": 5.0,
+    "max_iter": 1000,
+    "class_weight": "balanced",
+    "solver": "lbfgs",
+    "random_state": 42,
+    "observed_iterations": [
+      125
+    ]
+  },
+  "metrics": {
+    "accuracy": 0.881,
+    "macro_f1": 0.8376897826626076,
+    "per_class": {
+      "sadness": {
+        "precision": 0.9308510638297872,
+        "recall": 0.9036144578313253,
+        "f1-score": 0.9170305676855895,
+        "support": 581.0
+      },
+      "joy": {
+        "precision": 0.9152046783625731,
+        "recall": 0.9007194244604316,
+        "f1-score": 0.9079042784626541,
+        "support": 695.0
+      },
+      "love": {
+        "precision": 0.7074468085106383,
+        "recall": 0.8364779874213837,
+        "f1-score": 0.7665706051873199,
+        "support": 159.0
+      },
+      "anger": {
+        "precision": 0.8687943262411347,
+        "recall": 0.8909090909090909,
+        "f1-score": 0.8797127468581688,
+        "support": 275.0
+      },
+      "fear": {
+        "precision": 0.8803827751196173,
+        "recall": 0.8214285714285714,
+        "f1-score": 0.8498845265588915,
+        "support": 224.0
+      },
+      "surprise": {
+        "precision": 0.6712328767123288,
+        "recall": 0.7424242424242424,
+        "f1-score": 0.7050359712230215,
+        "support": 66.0
+      }
+    },
+    "confusion_matrix": [
+      [
+        525,
+        17,
+        6,
+        23,
+        9,
+        1
+      ],
+      [
+        7,
+        626,
+        46,
+        5,
+        3,
+        8
+      ],
+      [
+        1,
+        22,
+        133,
+        2,
+        0,
+        1
+      ],
+      [
+        14,
+        8,
+        1,
+        245,
+        7,
+        0
+      ],
+      [
+        14,
+        4,
+        2,
+        6,
+        184,
+        14
+      ],
+      [
+        3,
+        7,
+        0,
+        1,
+        6,
+        49
+      ]
+    ],
+    "label_order": [
+      "sadness",
+      "joy",
+      "love",
+      "anger",
+      "fear",
+      "surprise"
+    ]
+  },
+  "majority_baseline": {
+    "strategy": "most_frequent",
+    "predicted_label": "joy",
+    "accuracy": 0.3475,
+    "macro_f1": 0.08596165739022882
+  },
+  "largest_confusions": [
+    {
+      "actual": "joy",
+      "predicted": "love",
+      "count": 46
+    },
+    {
+      "actual": "sadness",
+      "predicted": "anger",
+      "count": 23
+    },
+    {
+      "actual": "love",
+      "predicted": "joy",
+      "count": 22
+    },
+    {
+      "actual": "sadness",
+      "predicted": "joy",
+      "count": 17
+    },
+    {
+      "actual": "anger",
+      "predicted": "sadness",
+      "count": 14
+    }
+  ],
+  "error_examples": [
+    {
+      "test_row": 11,
+      "text": "i jest i feel grumpy tired and pre menstrual which i probably am but then again its only been a week and im about as fit as a walrus on vacation for the summer",
+      "actual": "anger",
+      "predicted": "sadness"
+    },
+    {
+      "test_row": 12,
+      "text": "i don t feel particularly agitated",
+      "actual": "fear",
+      "predicted": "anger"
+    },
+    {
+      "test_row": 15,
+      "text": "i just feel extremely comfortable with the group of people that i dont even need to hide myself",
+      "actual": "joy",
+      "predicted": "anger"
+    },
+    {
+      "test_row": 22,
+      "text": "im not sure the feeling of loss will ever go away but it may dull to a sweet feeling of nostalgia at what i shared in this life with my dad and the luck i had to have a dad for years",
+      "actual": "sadness",
+      "predicted": "love"
+    },
+    {
+      "test_row": 38,
+      "text": "i feel very honoured to be included in a magzine which prioritises health and clean living so highly im curious do any of you read magazines concerned with health and clean lifestyles such as the green parent",
+      "actual": "joy",
+      "predicted": "surprise"
+    },
+    {
+      "test_row": 42,
+      "text": "i feel if i completely hated things i d exercise my democratic right speak my mind in what ever ways possible and try to enact a change",
+      "actual": "anger",
+      "predicted": "sadness"
+    },
+    {
+      "test_row": 51,
+      "text": "i was feeling pretty anxious all day but my first day at work was a very good day and that helped a lot",
+      "actual": "fear",
+      "predicted": "joy"
+    },
+    {
+      "test_row": 57,
+      "text": "i have tried to see what it would be like if i liked one of my girl friends but it has never really worked and i can only ever feel an emotional connection to them because they are my friends",
+      "actual": "sadness",
+      "predicted": "love"
+    }
+  ],
+  "environment": {
+    "python": "3.12.14",
+    "scikit_learn": "1.8.0",
+    "pandas": "2.2.3",
+    "joblib": "1.5.3"
+  },
+  "limitations": [
+    "Single supplied test split; no cross-validation or external-domain evaluation.",
+    "Dataset source and licence are not documented in this repository.",
+    "Predicts dataset emotion labels; does not establish a person's emotional state.",
+    "Approximate and paraphrased overlap is not audited."
+  ]
+}
