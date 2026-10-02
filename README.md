@@ -1,126 +1,54 @@
-# Emotion Classifier using NLP
+# Emotion classification baseline
 
-A machine learning project that classifies text into human emotions like **joy, sadness, anger, fear, love, and surprise** using TF-IDF and Logistic Regression.
+A classical NLP baseline for six text labels: sadness, joy, love, anger, fear, and surprise. It uses TF-IDF features and logistic regression; it does not infer a person's actual emotional state.
 
----
+## Evaluation
 
-## Overview
+The recorded run uses the bundled CSVs, with **15,989 training rows** and **2,000 test rows**. Eleven normalized texts occurred in both files; training removes those 11 rows and preserves the supplied test set. TF-IDF is fitted only on the remaining training data.
 
-This project builds a text classification model that predicts the **emotion behind a given sentence**.
-It uses traditional NLP techniques and a lightweight ML model for fast and interpretable results.
+| Model | Accuracy | Macro-F1 |
+|---|---:|---:|
+| Majority-class baseline (always joy) | 34.75% | 0.0860 |
+| TF-IDF + logistic regression | 88.10% | 0.8377 |
 
----
+[evaluation.json](evaluation.json) records dataset hashes, split counts, per-class metrics, the confusion matrix, error examples, model settings, and library versions. These results describe one supplied test split, not deployment performance.
 
-## Features
+## What the errors show
 
-* Classifies text into 6 emotions:
+| Label | Precision | Recall | F1 | Test examples |
+|---|---:|---:|---:|---:|
+| Sadness | 0.931 | 0.904 | 0.917 | 581 |
+| Joy | 0.915 | 0.901 | 0.908 | 695 |
+| Love | 0.707 | 0.836 | 0.767 | 159 |
+| Anger | 0.869 | 0.891 | 0.880 | 275 |
+| Fear | 0.880 | 0.821 | 0.850 | 224 |
+| Surprise | 0.671 | 0.742 | 0.705 | 66 |
 
-  * Sadness
-  * Joy
-  * Love
-  * Anger
-  * Fear
-  * Surprise
-* Text preprocessing (cleaning & normalization)
-* TF-IDF vectorization with n-grams
-* Efficient Logistic Regression model
-* Model saving using `joblib`
+The largest confusion is **joy predicted as love: 46 examples**. Love and surprise are weaker than the aggregate accuracy suggests; surprise also has only 66 test examples. Macro-F1 gives each class equal weight, so the two largest classes cannot dominate it as they do accuracy.
 
----
-
-## Tech Stack
-
-* **Language:** Python
-* **Libraries:**
-
-  * pandas
-  * scikit-learn
-  * joblib
-  * regex
-
----
-
-## Installation
-
-Clone the repository:
+## Run
 
 ```bash
 git clone https://github.com/sai161812/emotion-classifier1.git
 cd emotion-classifier1
-```
-
-Install dependencies:
-
-```bash
-pip install pandas scikit-learn joblib
-```
-
----
-
-## ▶Run the Project
-
-```bash
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+# Linux/macOS: source .venv/bin/activate
+python -m pip install -r requirements.txt
 python training.py
+python usage.py
 ```
 
----
+`training.py` writes `emotion_classifier.pkl` and `evaluation.json` alongside the script. `usage.py` applies the same lowercase and whitespace normalization before prediction. Enter a blank line to quit.
 
-## How It Works
+The recorded environment is Python 3.12.14, scikit-learn 1.8.0, pandas 2.2.3, and joblib 1.5.3. Use those versions to reproduce the recorded run; the requirements file otherwise permits newer versions.
 
-1. Load training and testing datasets
-2. Preprocess text (lowercase, remove extra spaces)
-3. Convert text into numerical features using **TF-IDF (unigrams + bigrams)**
-4. Train a **Logistic Regression classifier**
-5. Evaluate using accuracy and classification report
-6. Save the trained model as `emotion_classifier.pkl`
+## Model and limits
 
----
+- TF-IDF: unigrams and bigrams, up to 50,000 features, `min_df=2`, sublinear term frequency.
+- Logistic regression: `C=5.0`, balanced class weights, `lbfgs`, `max_iter=1000`, `random_state=42`. These are the existing model settings; this run does not claim a tuning study.
+- The bundled files' source and licence are not documented in the repository.
+- Split auditing catches normalized exact matches, not paraphrases or near duplicates. Remaining duplicates within training are retained.
+- No cross-validation, external-domain evaluation, deep-learning comparison, or measured inference latency is reported.
 
-## Model Details
-
-* **Vectorizer:**
-
-  * n-grams: (1, 2)
-  * max features: 50,000
-  * min_df: 2
-
-* **Classifier:**
-
-  * Logistic Regression
-  * C = 5.0
-  * max_iter = 1000
-  * class_weight = balanced
-
----
-
-## Model Export
-
-The trained model is saved as:
-
-```bash
-emotion_classifier.pkl
-```
-
-You can load it later using:
-
-```python
-import joblib
-model = joblib.load("emotion_classifier.pkl")
-```
-
----
-
-## Future Improvements
-
-* Try deep learning models (LSTM / BERT)
-* Add real-time prediction UI (Streamlit / Flask)
-* Improve preprocessing (stopwords, stemming)
-* Emotion-Classifier2 will be on another LEVEL
-
----
-
-## Contributing
-
-Feel free to fork this repo and improve it. Pull requests are welcome.
-
----
+Implementation: [training and evaluation](training.py) · [interactive prediction](usage.py).
